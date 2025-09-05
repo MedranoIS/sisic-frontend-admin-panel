@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+﻿# SISIC — Frontend Admin Panel (Next.js, App Router)
 
-## Getting Started
+Base inicial para un **SaaS multi-tenant** sobre **Next.js 15 (App Router) + TypeScript + ESLint**.
 
-First, run the development server:
+## 🎯 Objetivo
+Proveer una base limpia y escalable para un panel de administración **multi-tenant**: una sola app que sirve a múltiples clientes (**tenants**), aislando configuración, branding y (en el futuro) datos.
 
+## 🧰 Requisitos
+- Node.js 18.18+ (recomendado 20 LTS)
+- npm
+
+## 🚀 Cómo ejecutar en local
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Abre http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📁 Estructura inicial (App Router)
+```
+app/
+  layout.tsx        # layout raíz
+  page.tsx          # página de bienvenida
+public/
+  favicon.ico
+.eslintrc.json
+next.config.ts
+package.json
+tsconfig.json       # incluye alias de imports: "@/*"
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> App Router usa la carpeta `app/` como sistema de rutas y layouts.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧭 Convención de imports
+Se configuró el alias `@/*`, por lo que puedes importar así:
+```ts
+import Header from "@/components/Header"
+```
 
-## Learn More
+## 🏢 ¿Qué es multi-tenant aquí?
+**Multi-tenant** = una sola app para varios clientes (**tenants**).
+Cada tenant puede tener:
+- **Branding/tema** propio (colores, logos)
+- **Aislamiento lógico** de datos (p. ej. `tenant_id` + RLS en la BD)
+- **Dominios o subdominios** dedicados (p. ej. `acme.midominio.com`)
 
-To learn more about Next.js, take a look at the following resources:
+En siguientes pasos se añadirá:
+- Rutas por tenant (`/[tenant]/dashboard`)
+- `lib/tenants.ts` con tenants de prueba
+- `middleware.ts` para detectar tenant por subdominio y reescribir a rutas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧪 Scripts útiles
+```bash
+npm run dev     # desarrollo
+npm run build   # build producción
+npm run start   # ejecutar build
+npm run lint    # linting
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📌 Próximos pasos
+1) Añadir estructura mínima multi-tenant (rutas + middleware)
+2) Integrar auth por tenant
+3) Theming por tenant (Tailwind/MUI + CSS vars)
+4) Dominio/subdominio por tenant y verificación DNS
