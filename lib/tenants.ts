@@ -1,14 +1,30 @@
+// lib/tenants.ts
+
 export type Tenant = {
-  slug: string;
-  name: string;
-  themeColor?: string;
+  slug: string;                  // usado en la URL: /[tenant]/...
+  name: string;                  // nombre visible
+  theme?: {
+    heroImage?: string;          // imagen de portada
+    logo?: string;               // logo opcional
+    colors?: {                   // paleta opcional
+      primary?: string;
+      secondary?: string;
+    };
+  };
 };
 
-export const TENANTS: Tenant[] = [
-  { slug: 'acme',   name: 'Acme Inc.',   themeColor: '#0891b2' },
-  { slug: 'globex', name: 'Globex Corp.', themeColor: '#f59e0b' },
+export const tenants: Tenant[] = [
+  {
+    slug: 'agro-gaitan',
+    name: 'Agro Gaitán',
+    theme: {
+      heroImage: '/backgrounds/agro-gaitan.jpg',
+      colors: { primary: '#0ea5e9', secondary: '#22c55e' },
+    },
+  },
+  // aquí puedes registrar más tenants
 ];
 
 export function getTenantBySlug(slug: string): Tenant | null {
-  return TENANTS.find((t) => t.slug === slug) ?? null;
+  return tenants.find((t) => t.slug === slug) ?? null;
 }
